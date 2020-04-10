@@ -5,7 +5,7 @@ library(dplyr)
 raw <- read.table(file = "filepath", header=TRUE, sep=";", stringsAsFactors = FALSE)
 ms_data <- raw %>%
     mutate(date = as.Date(data, format = "%d/%m/%Y"),
-           state = sigla
+           state = sigla,
            region = reg) %>%
     select(-data, -sigla, -reg, -casosAcumulados, -obitosAcumulados) %>%
     rename(new_cases = casosNovos,
@@ -20,7 +20,7 @@ brazil_aggregate <- ms_data %>%
     ungroup() %>%
     mutate(total_cases = cumsum(new_cases),
            total_deaths = cumsum(new_deaths),
-           region = as.factor("Brasil")) %>%
+           region = "Brasil") %>%
     data.frame()
 
 by_state <- ms_data %>%
